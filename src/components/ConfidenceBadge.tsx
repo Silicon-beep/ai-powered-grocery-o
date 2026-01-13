@@ -9,17 +9,15 @@ interface ConfidenceBadgeProps {
 export function ConfidenceBadge({ confidence, className }: ConfidenceBadgeProps) {
   const level = confidence >= 0.85 ? 'high' : confidence >= 0.70 ? 'medium' : 'low'
   
-  const variant = level === 'high' ? 'default' : level === 'medium' ? 'secondary' : 'outline'
-  
-  const colorClass = level === 'high' ? 'bg-accent text-accent-foreground border-accent' :
-                    level === 'medium' ? 'bg-warning/10 text-warning-foreground border-warning' :
+  const colorClass = level === 'high' ? 'bg-accent/20 text-accent border-accent shadow-sm shadow-accent/20' :
+                    level === 'medium' ? 'bg-warning/20 text-warning-foreground border-warning shadow-sm shadow-warning/20' :
                     'bg-muted text-muted-foreground border-border'
 
   return (
     <Badge 
-      variant={variant} 
+      variant="outline" 
       className={cn(
-        'font-medium',
+        'font-bold text-xs border-2 font-mono',
         colorClass,
         className
       )}

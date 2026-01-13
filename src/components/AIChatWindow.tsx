@@ -9,7 +9,8 @@ import {
   PaperPlaneRight, 
   Lightning,
   User,
-  Robot
+  Robot,
+  Sparkle
 } from '@phosphor-icons/react'
 import { AZURE_AI_CONFIG } from '@/lib/azure-ai-config'
 import { aiAgentApi, inventoryApi, workforceApi, pricingApi, placementApi, metricsApi } from '@/lib/api-service'
@@ -216,20 +217,27 @@ ${databaseContext}`
           initial={{ opacity: 0, y: 20, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.95 }}
-          transition={{ duration: 0.2 }}
-          className="fixed bottom-6 right-6 z-50 w-[400px] max-w-[calc(100vw-3rem)]"
+          transition={{ duration: 0.2, type: "spring", stiffness: 300, damping: 30 }}
+          className="fixed bottom-8 right-8 z-50 w-[440px] max-w-[calc(100vw-4rem)]"
         >
-          <Card className="shadow-2xl border-2 border-border overflow-hidden">
-            <div className="bg-primary text-primary-foreground p-4 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="p-1.5 rounded-md bg-primary-foreground/20">
-                  <Lightning size={18} weight="fill" />
-                </div>
+          <Card className="shadow-2xl border-2 border-primary/30 overflow-hidden backdrop-blur-xl bg-card/95">
+            <div className="bg-gradient-to-br from-primary via-primary to-accent text-primary-foreground p-5 flex items-center justify-between relative overflow-hidden">
+              <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEwIEwgNDAgMTAgTSAxMCAwIEwgMTAgNDAgTSAwIDIwIEwgNDAgMjAgTSAyMCAwIEwgMjAgNDAgTSAwIDMwIEwgNDAgMzAgTSAzMCAwIEwgMzAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjA1IiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-30"></div>
+              <div className="flex items-center gap-3 relative z-10">
+                <motion.div 
+                  className="p-2 rounded-xl bg-primary-foreground/20 backdrop-blur-sm shadow-lg"
+                  animate={{ 
+                    boxShadow: ['0 0 0 0 rgba(255,255,255,0.4)', '0 0 0 8px rgba(255,255,255,0)'],
+                  }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  <Sparkle size={20} weight="fill" className="text-primary-foreground" />
+                </motion.div>
                 <div>
-                  <h3 className="font-semibold text-sm">AI Assistant</h3>
+                  <h3 className="font-bold text-base font-heading">AI Assistant</h3>
                   <Badge 
                     variant="outline" 
-                    className="bg-primary-foreground/20 text-primary-foreground border-primary-foreground/30 text-xs h-5 px-1.5"
+                    className="bg-primary-foreground/20 text-primary-foreground border-primary-foreground/40 text-xs h-5 px-2 font-bold"
                   >
                     {isLoading ? 'Thinking...' : 'Online'}
                   </Badge>
@@ -239,37 +247,40 @@ ${databaseContext}`
                 variant="ghost"
                 size="icon"
                 onClick={onClose}
-                className="h-8 w-8 text-primary-foreground hover:bg-primary-foreground/20"
+                className="h-9 w-9 text-primary-foreground hover:bg-primary-foreground/20 relative z-10 transition-transform hover:scale-110"
               >
-                <X size={18} weight="bold" />
+                <X size={20} weight="bold" />
               </Button>
             </div>
 
-            <div className="h-[500px] flex flex-col">
-              <ScrollArea className="flex-1 p-4">
+            <div className="h-[520px] flex flex-col">
+              <ScrollArea className="flex-1 p-5">
                 <div className="space-y-4">
-                  {messages.map((message) => (
-                    <div
+                  {messages.map((message, index) => (
+                    <motion.div
                       key={message.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.05 }}
                       className={`flex gap-3 ${
                         message.role === 'user' ? 'justify-end' : 'justify-start'
                       }`}
                     >
                       {message.role === 'assistant' && (
-                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-accent flex items-center justify-center">
-                          <Robot size={18} weight="fill" className="text-accent-foreground" />
+                        <div className="flex-shrink-0 w-9 h-9 rounded-xl bg-gradient-to-br from-accent to-primary flex items-center justify-center shadow-md">
+                          <Robot size={20} weight="fill" className="text-primary-foreground" />
                         </div>
                       )}
                       
                       <div
-                        className={`max-w-[75%] rounded-lg p-3 ${
+                        className={`max-w-[80%] rounded-2xl p-4 shadow-md ${
                           message.role === 'user'
-                            ? 'bg-primary text-primary-foreground'
-                            : 'bg-muted text-muted-foreground'
+                            ? 'bg-gradient-to-br from-primary to-accent text-primary-foreground'
+                            : 'bg-muted/70 text-foreground border-2 border-border'
                         }`}
                       >
-                        <p className="text-sm whitespace-pre-wrap">{message.content}</p>
-                        <p className="text-xs opacity-70 mt-1">
+                        <p className="text-sm whitespace-pre-wrap font-medium leading-relaxed">{message.content}</p>
+                        <p className={`text-xs mt-2 font-mono ${message.role === 'user' ? 'opacity-80' : 'opacity-60'}`}>
                           {message.timestamp.toLocaleTimeString([], { 
                             hour: '2-digit', 
                             minute: '2-digit' 
@@ -278,32 +289,48 @@ ${databaseContext}`
                       </div>
 
                       {message.role === 'user' && (
-                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
-                          <User size={18} weight="fill" className="text-secondary-foreground" />
+                        <div className="flex-shrink-0 w-9 h-9 rounded-xl bg-gradient-to-br from-secondary to-warning flex items-center justify-center shadow-md">
+                          <User size={20} weight="fill" className="text-secondary-foreground" />
                         </div>
                       )}
-                    </div>
+                    </motion.div>
                   ))}
                   {isLoading && (
-                    <div className="flex gap-3 justify-start">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-accent flex items-center justify-center">
-                        <Robot size={18} weight="fill" className="text-accent-foreground" />
+                    <motion.div 
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="flex gap-3 justify-start"
+                    >
+                      <div className="flex-shrink-0 w-9 h-9 rounded-xl bg-gradient-to-br from-accent to-primary flex items-center justify-center shadow-md">
+                        <Robot size={20} weight="fill" className="text-primary-foreground" />
                       </div>
-                      <div className="bg-muted rounded-lg p-3">
-                        <div className="flex gap-1">
-                          <div className="w-2 h-2 rounded-full bg-muted-foreground animate-bounce" style={{ animationDelay: '0ms' }} />
-                          <div className="w-2 h-2 rounded-full bg-muted-foreground animate-bounce" style={{ animationDelay: '150ms' }} />
-                          <div className="w-2 h-2 rounded-full bg-muted-foreground animate-bounce" style={{ animationDelay: '300ms' }} />
+                      <div className="bg-muted/70 border-2 border-border rounded-2xl p-4">
+                        <div className="flex gap-1.5">
+                          <motion.div 
+                            className="w-2.5 h-2.5 rounded-full bg-primary" 
+                            animate={{ y: [0, -8, 0] }}
+                            transition={{ duration: 0.6, repeat: Infinity, ease: "easeInOut" }}
+                          />
+                          <motion.div 
+                            className="w-2.5 h-2.5 rounded-full bg-accent" 
+                            animate={{ y: [0, -8, 0] }}
+                            transition={{ duration: 0.6, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
+                          />
+                          <motion.div 
+                            className="w-2.5 h-2.5 rounded-full bg-primary" 
+                            animate={{ y: [0, -8, 0] }}
+                            transition={{ duration: 0.6, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
+                          />
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   )}
                   <div ref={messagesEndRef} />
                 </div>
               </ScrollArea>
 
-              <div className="border-t border-border p-4">
-                <div className="flex gap-2">
+              <div className="border-t-2 border-border bg-muted/30 p-4">
+                <div className="flex gap-3">
                   <Input
                     ref={inputRef}
                     value={inputValue}
@@ -311,15 +338,15 @@ ${databaseContext}`
                     onKeyDown={handleKeyPress}
                     placeholder="Ask about inventory, pricing, staff..."
                     disabled={isLoading}
-                    className="flex-1"
+                    className="flex-1 border-2 focus-visible:ring-2 font-medium"
                   />
                   <Button
                     onClick={handleSendMessage}
                     disabled={!inputValue.trim() || isLoading}
                     size="icon"
-                    className="flex-shrink-0"
+                    className="flex-shrink-0 h-10 w-10 bg-gradient-to-br from-primary to-accent hover:from-primary/90 hover:to-accent/90 shadow-lg transition-transform hover:scale-110"
                   >
-                    <PaperPlaneRight size={18} weight="fill" />
+                    <PaperPlaneRight size={20} weight="fill" />
                   </Button>
                 </div>
               </div>

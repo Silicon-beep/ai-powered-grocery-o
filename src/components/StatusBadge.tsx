@@ -8,17 +8,17 @@ interface StatusBadgeProps {
 
 export function StatusBadge({ status, className }: StatusBadgeProps) {
   const config = {
-    optimal: { label: 'Optimal', color: 'bg-success/10 text-success border-success' },
-    low: { label: 'Low', color: 'bg-warning/10 text-warning-foreground border-warning' },
-    critical: { label: 'Critical', color: 'bg-destructive/10 text-destructive border-destructive' },
-    overstock: { label: 'Overstock', color: 'bg-warning/10 text-warning-foreground border-warning' },
-    adequate: { label: 'Adequate', color: 'bg-success/10 text-success border-success' },
-    understaffed: { label: 'Understaffed', color: 'bg-destructive/10 text-destructive border-destructive' },
-    overstaffed: { label: 'Overstaffed', color: 'bg-warning/10 text-warning-foreground border-warning' },
-    high: { label: 'High', color: 'bg-destructive/10 text-destructive border-destructive' },
-    medium: { label: 'Medium', color: 'bg-warning/10 text-warning-foreground border-warning' },
-    investigating: { label: 'Investigating', color: 'bg-warning/10 text-warning-foreground border-warning' },
-    resolved: { label: 'Resolved', color: 'bg-success/10 text-success border-success' },
+    optimal: { label: 'Optimal', color: 'bg-success/20 text-success border-success shadow-sm shadow-success/20' },
+    low: { label: 'Low', color: 'bg-warning/20 text-warning-foreground border-warning shadow-sm shadow-warning/20' },
+    critical: { label: 'Critical', color: 'bg-destructive/20 text-destructive border-destructive shadow-sm shadow-destructive/20' },
+    overstock: { label: 'Overstock', color: 'bg-warning/20 text-warning-foreground border-warning shadow-sm shadow-warning/20' },
+    adequate: { label: 'Adequate', color: 'bg-success/20 text-success border-success shadow-sm shadow-success/20' },
+    understaffed: { label: 'Understaffed', color: 'bg-destructive/20 text-destructive border-destructive shadow-sm shadow-destructive/20' },
+    overstaffed: { label: 'Overstaffed', color: 'bg-warning/20 text-warning-foreground border-warning shadow-sm shadow-warning/20' },
+    high: { label: 'High', color: 'bg-destructive/20 text-destructive border-destructive shadow-sm shadow-destructive/20' },
+    medium: { label: 'Medium', color: 'bg-warning/20 text-warning-foreground border-warning shadow-sm shadow-warning/20' },
+    investigating: { label: 'Investigating', color: 'bg-warning/20 text-warning-foreground border-warning shadow-sm shadow-warning/20' },
+    resolved: { label: 'Resolved', color: 'bg-success/20 text-success border-success shadow-sm shadow-success/20' },
     false_positive: { label: 'False Positive', color: 'bg-muted text-muted-foreground border-border' }
   }[status]
 
@@ -26,7 +26,7 @@ export function StatusBadge({ status, className }: StatusBadgeProps) {
     <Badge 
       variant="outline" 
       className={cn(
-        'font-medium',
+        'font-bold text-xs border-2',
         config.color,
         className
       )}
