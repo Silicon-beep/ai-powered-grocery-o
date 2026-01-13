@@ -1,28 +1,28 @@
 name: Azure Static Web Apps CI/CD
 
 on:
-  push: 
+  push:   
     branches: 
       - main
-  pull_request:
+  pull_request: 
     types: [opened, synchronize, reopened, closed]
-    branches:
+    branches: 
       - main
 
-jobs:
-  build_and_deploy_job: 
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
+jobs: 
+  build_and_deploy_job:  
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event. action != 'closed')
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     permissions:
        id-token: write
-       contents: read
-    steps: 
+       contents:  read
+    steps:  
       - uses: actions/checkout@v3
         with:
-          submodules:  true
+          submodules: true
           lfs: false
-          persist-credentials: false  # Add this to avoid git config issues
+          persist-credentials:  false
       - name: Use Node.js 20
         uses: actions/setup-node@v4
         with:
@@ -32,7 +32,7 @@ jobs:
       - name: Get Id Token
         uses: actions/github-script@v6
         id: idtoken
-        with:
+        with: 
            script: |
                const coredemo = require('@actions/core')
                return await coredemo.getIDToken()
@@ -40,19 +40,19 @@ jobs:
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
-        with: 
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_POLITE_BEACH_04DC95310 }}
+        with:  
+          azure_static_web_apps_api_token:  ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_POLITE_BEACH_04DC95310 }}
           action: "upload"
           app_location: "/"
           api_location: ""
-          output_location: ""
-          github_id_token: ${{ steps.idtoken.outputs.result }}
+          output_location: "dist"
+          github_id_token: ${{ steps.idtoken.outputs. result }}
 
   close_pull_request_job:
-    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    if:  github.event_name == 'pull_request' && github.event.action == 'closed'
     runs-on: ubuntu-latest
     name: Close Pull Request Job
-    steps:
+    steps: 
       - name: Close Pull Request
         id: closepullrequest
         uses: Azure/static-web-apps-deploy@v1
