@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { Toaster } from '@/components/ui/sonner'
 import { 
   ChartLine, 
@@ -18,10 +19,12 @@ import { WorkforceView } from '@/components/views/WorkforceView'
 import { PricingView } from '@/components/views/PricingView'
 import { LossPreventionView } from '@/components/views/LossPreventionView'
 import { ProductPlacementView } from '@/components/views/ProductPlacementView'
+import { AIChatWindow } from '@/components/AIChatWindow'
 import { mockStore } from '@/lib/mock-data'
 
 function App() {
   const [activeTab, setActiveTab] = useState('overview')
+  const [isChatOpen, setIsChatOpen] = useState(false)
 
   return (
     <div className="min-h-screen bg-background">
@@ -53,10 +56,14 @@ function App() {
             </div>
             
             <div className="flex items-center gap-3">
-              <Badge variant="outline" className="bg-accent/10 text-accent-foreground border-accent">
+              <Button
+                variant="outline"
+                onClick={() => setIsChatOpen(!isChatOpen)}
+                className="bg-accent/10 text-accent-foreground border-accent hover:bg-accent/20"
+              >
                 <Lightning size={12} weight="fill" className="mr-1" />
                 AI Agents Active
-              </Badge>
+              </Button>
             </div>
           </div>
         </div>
@@ -127,6 +134,8 @@ function App() {
           </div>
         </div>
       </footer>
+
+      <AIChatWindow isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
     </div>
   )
 }
