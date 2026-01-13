@@ -11,11 +11,14 @@ import {
 } from '@/components/ui/table'
 import { StatusBadge } from '@/components/StatusBadge'
 import { ShieldWarning, MagnifyingGlass, CheckCircle } from '@phosphor-icons/react'
-import { mockShrinkageEvents } from '@/lib/mock-data'
+import { lossPreventionApi } from '@/lib/api-service'
+import { useApiData } from '@/hooks/use-api-data'
 import { toast } from 'sonner'
 
 export function LossPreventionView() {
-  const activeEvents = mockShrinkageEvents.filter(e => e.status === 'investigating')
+  const { data: shrinkageEvents } = useApiData(lossPreventionApi.getShrinkageEvents)
+
+  const activeEvents = shrinkageEvents?.filter(e => e.status === 'investigating') || []
   const totalLoss = activeEvents.reduce((sum, e) => sum + e.estimatedLoss, 0)
 
   const handleInvestigate = (eventId: string, productName: string) => {
@@ -108,7 +111,7 @@ export function LossPreventionView() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {mockShrinkageEvents.map((event) => (
+              {shrinkageEvents?.map((event) => (
                 <TableRow key={event.eventId}>
                   <TableCell className="font-mono text-sm">
                     {new Date(event.detectedAt).toLocaleString()}

@@ -11,20 +11,24 @@ import {
 } from '@/components/ui/table'
 import { StatusBadge } from '@/components/StatusBadge'
 import { Users, Clock, CalendarBlank, CheckCircle } from '@phosphor-icons/react'
-import { mockShifts, mockHourlyForecasts } from '@/lib/mock-data'
+import { workforceApi } from '@/lib/api-service'
+import { useApiData } from '@/hooks/use-api-data'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 
 export function WorkforceView() {
+  const { data: shifts } = useApiData(workforceApi.getShifts)
+  const { data: hourlyForecasts } = useApiData(workforceApi.getHourlyForecast)
+
   const handlePublishSchedule = () => {
     toast.success('Schedule published', {
       description: 'All employees have been notified of their shifts.'
     })
   }
 
-  const totalScheduledHours = mockShifts.reduce((sum, shift) => sum + shift.hours, 0)
-  const coverageGaps = mockHourlyForecasts.filter(h => h.coverageStatus === 'understaffed').length
-  const optimalHours = mockHourlyForecasts.filter(h => h.coverageStatus === 'adequate').length
+  const totalScheduledHours = shifts?.reduce((sum, shift) => sum + shift.hours, 0) || 0
+  const coverageGaps = hourlyForecasts?.filter(h => h.coverageStatus === 'understaffed').length || 0
+  const optimalHours = hourlyForecasts?.filter(h => h.coverageStatus === 'adequate').length || 0
 
   return (
     <div className="space-y-6">
@@ -52,7 +56,7 @@ export function WorkforceView() {
                 Today's Shifts
               </p>
             </div>
-            <p className="text-3xl font-bold font-mono">{mockShifts.length}</p>
+            <p className="text-3xl font-bold font-mono">{shifts?.length || 0}</p>
           </CardContent>
         </Card>
 
@@ -124,7 +128,7 @@ export function WorkforceView() {
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
-            {mockHourlyForecasts.filter(h => h.hour >= 6 && h.hour <= 22).map((forecast) => {
+            {hourlyForecasts?.filter(h => h.hour >= 6 && h.hour <= 22).map((forecast) => {
               const timeLabel = `${forecast.hour.toString().padStart(2, '0')}:00`
               const isPeakHour = forecast.predictedCustomers > 80
               
@@ -201,7 +205,7 @@ export function WorkforceView() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {mockShifts.map((shift) => (
+              {shifts?.map((shift) => (
                 <TableRow key={shift.shiftId}>
                   <TableCell className="font-medium">{shift.employeeName}</TableCell>
                   <TableCell>

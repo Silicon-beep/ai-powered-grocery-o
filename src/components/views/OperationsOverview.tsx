@@ -11,12 +11,17 @@ import {
   Lightning,
   WarningCircle 
 } from '@phosphor-icons/react'
-import { mockOperationalMetrics, mockInventory, mockShrinkageEvents } from '@/lib/mock-data'
+import { inventoryApi, lossPreventionApi, metricsApi } from '@/lib/api-service'
+import { useApiData } from '@/hooks/use-api-data'
 
 export function OperationsOverview() {
-  const criticalItems = mockInventory.filter(item => item.aiInsights.stockStatus === 'critical')
-  const lowItems = mockInventory.filter(item => item.aiInsights.stockStatus === 'low')
-  const activeShrinkage = mockShrinkageEvents.filter(e => e.status === 'investigating')
+  const { data: inventory } = useApiData(inventoryApi.getAll)
+  const { data: shrinkageEvents } = useApiData(lossPreventionApi.getShrinkageEvents)
+  const { data: metrics } = useApiData(metricsApi.getOperational)
+
+  const criticalItems = inventory?.filter(item => item.aiInsights.stockStatus === 'critical') || []
+  const lowItems = inventory?.filter(item => item.aiInsights.stockStatus === 'low') || []
+  const activeShrinkage = shrinkageEvents?.filter(e => e.status === 'investigating') || []
 
   return (
     <div className="space-y-6">
@@ -52,17 +57,17 @@ export function OperationsOverview() {
       )}
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <MetricCard metric={mockOperationalMetrics.clv} />
-        <MetricCard metric={mockOperationalMetrics.revenue} />
-        <MetricCard metric={mockOperationalMetrics.basketSize} />
-        <MetricCard metric={mockOperationalMetrics.churnRisk} />
+        {metrics?.clv && <MetricCard metric={metrics.clv} />}
+        {metrics?.revenue && <MetricCard metric={metrics.revenue} />}
+        {metrics?.basketSize && <MetricCard metric={metrics.basketSize} />}
+        {metrics?.churnRisk && <MetricCard metric={metrics.churnRisk} />}
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <MetricCard metric={mockOperationalMetrics.stockouts} />
-        <MetricCard metric={mockOperationalMetrics.waste} />
-        <MetricCard metric={mockOperationalMetrics.laborCost} />
-        <MetricCard metric={mockOperationalMetrics.margin} />
+        {metrics?.stockouts && <MetricCard metric={metrics.stockouts} />}
+        {metrics?.waste && <MetricCard metric={metrics.waste} />}
+        {metrics?.laborCost && <MetricCard metric={metrics.laborCost} />}
+        {metrics?.margin && <MetricCard metric={metrics.margin} />}
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -97,7 +102,7 @@ export function OperationsOverview() {
               <span className="text-sm text-muted-foreground">Optimal</span>
               <div className="flex items-center gap-2">
                 <span className="text-lg font-bold font-mono text-success">
-                  {mockInventory.filter(i => i.aiInsights.stockStatus === 'optimal').length}
+                  {inventory?.filter(i => i.aiInsights.stockStatus === 'optimal').length || 0}
                 </span>
                 <StatusBadge status="optimal" />
               </div>

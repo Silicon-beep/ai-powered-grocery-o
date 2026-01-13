@@ -12,11 +12,14 @@ import {
 import { StatusBadge } from '@/components/StatusBadge'
 import { ConfidenceBadge } from '@/components/ConfidenceBadge'
 import { Tag, Lightning, CheckCircle, TrendUp, TrendDown } from '@phosphor-icons/react'
-import { mockPricingRecommendations } from '@/lib/mock-data'
+import { pricingApi } from '@/lib/api-service'
+import { useApiData } from '@/hooks/use-api-data'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 
 export function PricingView() {
+  const { data: pricingRecommendations } = useApiData(pricingApi.getRecommendations)
+
   const handleApprove = (productName: string, recommendedPrice: number) => {
     toast.success('Pricing approved', {
       description: `${productName} price updated to $${recommendedPrice.toFixed(2)}`
@@ -24,20 +27,20 @@ export function PricingView() {
   }
 
   const handleApproveAll = () => {
-    toast.success(`Approved ${mockPricingRecommendations.length} pricing changes`, {
+    toast.success(`Approved ${pricingRecommendations?.length || 0} pricing changes`, {
       description: 'Prices will update in POS within 5 minutes.'
     })
   }
 
-  const totalRevenueImpact = mockPricingRecommendations.reduce(
+  const totalRevenueImpact = pricingRecommendations?.reduce(
     (sum, rec) => sum + rec.projectedImpact.revenueChange, 
     0
-  )
+  ) || 0
   
-  const totalWasteReduction = mockPricingRecommendations.reduce(
+  const totalWasteReduction = pricingRecommendations?.reduce(
     (sum, rec) => sum + rec.projectedImpact.wasteReduction, 
     0
-  )
+  ) || 0
 
   return (
     <div className="space-y-6">
@@ -65,7 +68,7 @@ export function PricingView() {
                 Pending Recommendations
               </p>
             </div>
-            <p className="text-3xl font-bold font-mono">{mockPricingRecommendations.length}</p>
+            <p className="text-3xl font-bold font-mono">{pricingRecommendations?.length || 0}</p>
           </CardContent>
         </Card>
 
@@ -133,7 +136,7 @@ export function PricingView() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {mockPricingRecommendations.map((rec) => (
+              {pricingRecommendations?.map((rec) => (
                 <TableRow key={rec.productId}>
                   <TableCell className="font-medium">{rec.productName}</TableCell>
                   <TableCell>
@@ -213,7 +216,7 @@ export function PricingView() {
           <CardDescription>Detailed explanations for each recommendation</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          {mockPricingRecommendations.map((rec) => (
+          {pricingRecommendations?.map((rec) => (
             <div key={rec.productId} className="p-4 rounded-lg bg-muted/50 space-y-3">
               <div className="flex items-start justify-between">
                 <div>

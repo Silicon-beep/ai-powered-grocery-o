@@ -20,11 +20,14 @@ import { PricingView } from '@/components/views/PricingView'
 import { LossPreventionView } from '@/components/views/LossPreventionView'
 import { ProductPlacementView } from '@/components/views/ProductPlacementView'
 import { AIChatWindow } from '@/components/AIChatWindow'
-import { mockStore } from '@/lib/mock-data'
+import { storeApi } from '@/lib/api-service'
+import { useApiData } from '@/hooks/use-api-data'
 
 function App() {
   const [activeTab, setActiveTab] = useState('overview')
   const [isChatOpen, setIsChatOpen] = useState(false)
+
+  const { data: store } = useApiData(storeApi.getInfo)
 
   return (
     <div className="min-h-screen bg-background">
@@ -46,8 +49,8 @@ function App() {
               <div className="h-8 w-px bg-border ml-2" />
               <div className="flex items-center gap-3">
                 <div>
-                  <p className="text-sm font-semibold">{mockStore.name}</p>
-                  <p className="text-xs text-muted-foreground">Store #{mockStore.storeNumber} • {mockStore.region}</p>
+                  <p className="text-sm font-semibold">{store?.name || 'Loading...'}</p>
+                  <p className="text-xs text-muted-foreground">Store #{store?.storeNumber || '—'} • {store?.region || '—'}</p>
                 </div>
                 <Badge variant="outline" className="bg-success/10 text-success border-success">
                   Active

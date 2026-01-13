@@ -12,6 +12,7 @@ import {
   Robot
 } from '@phosphor-icons/react'
 import { AZURE_AI_CONFIG } from '@/lib/azure-ai-config'
+import { aiAgentApi, inventoryApi, workforceApi, pricingApi, placementApi, metricsApi } from '@/lib/api-service'
 import { toast } from 'sonner'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -55,7 +56,7 @@ export function AIChatWindow({ isOpen, onClose }: AIChatWindowProps) {
     const { endpoint, apiKey, deploymentName, apiVersion } = AZURE_AI_CONFIG
 
     if (!endpoint || !apiKey || !deploymentName) {
-      throw new Error('Azure AI configuration is incomplete. Please check azure-ai-config.ts')
+      return await handleMessageWithDatabaseContext(userMessage)
     }
 
     const url = `${endpoint}/openai/deployments/${deploymentName}/chat/completions?api-version=${apiVersion}`
@@ -70,6 +71,8 @@ export function AIChatWindow({ isOpen, onClose }: AIChatWindowProps) {
       content: userMessage
     })
 
+    const databaseContext = await fetchDatabaseContext(userMessage)
+
     const response = await fetch(url, {
       method: 'POST',
       headers: {
@@ -80,7 +83,12 @@ export function AIChatWindow({ isOpen, onClose }: AIChatWindowProps) {
         messages: [
           {
             role: 'system',
-            content: 'You are a helpful AI assistant for StoreAI, a grocery management platform. Help store managers with inventory, workforce, pricing, loss prevention, and product placement questions. Be concise and actionable.'
+            content: `You are a helpful AI assistant for StoreAI, a grocery management platform. Help store managers with inventory, workforce, pricing, loss prevention, and product placement questions. Be concise and actionable.
+            
+You have access to real-time database information. When answering questions, reference the provided data context when relevant.
+
+Database Context:
+${databaseContext}`
           },
           ...conversationHistory
         ],
@@ -99,6 +107,57 @@ export function AIChatWindow({ isOpen, onClose }: AIChatWindowProps) {
 
     const data = await response.json()
     return data.choices[0]?.message?.content || 'No response from AI'
+  }
+
+  const fetchDatabaseContext = async (userMessage: string): Promise<string> => {
+    const lowerMessage = userMessage.toLowerCase()
+    let context = ''
+
+    try {
+      if (lowerMessage.includes('inventory') || lowerMessage.includes('stock')) {
+        const inventory = await inventoryApi.getAll()
+        const lowStockItems = inventory.filter(item => item.aiInsights.stockStatus === 'low' || item.aiInsights.stockStatus === 'critical')
+        context += `\n\nCurrent Inventory Status:\n- Total items: ${inventory.length}\n- Low/Critical stock items: ${lowStockItems.length}\n- Top concerns: ${lowStockItems.slice(0, 3).map(item => `${item.productName} (${item.currentStock} ${item.unitOfMeasure})`).join(', ')}`
+      }
+
+      if (lowerMessage.includes('pricing') || lowerMessage.includes('price')) {
+        const pricing = await pricingApi.getRecommendations()
+        context += `\n\nPricing Recommendations:\n- Total recommendations: ${pricing.length}\n- High priority items: ${pricing.filter(p => p.urgency === 'high').length}`
+      }
+
+      if (lowerMessage.includes('staff') || lowerMessage.includes('workforce') || lowerMessage.includes('schedule')) {
+        const shifts = await workforceApi.getShifts()
+        const forecast = await workforceApi.getHourlyForecast()
+        const understaffedHours = forecast.filter(f => f.coverageStatus === 'understaffed').length
+        context += `\n\nWorkforce Status:\n- Scheduled shifts today: ${shifts.length}\n- Understaffed hours: ${understaffedHours}`
+      }
+
+      if (lowerMessage.includes('metric') || lowerMessage.includes('performance') || lowerMessage.includes('overview')) {
+        const metrics = await metricsApi.getOperational()
+        context += `\n\nKey Metrics:\n- CLV: ${metrics.clv.value} (${metrics.clv.change !== undefined && metrics.clv.change > 0 ? '+' : ''}${metrics.clv.change ?? 0}%)\n- Revenue: ${metrics.revenue.value} (${metrics.revenue.change !== undefined && metrics.revenue.change > 0 ? '+' : ''}${metrics.revenue.change ?? 0}%)\n- Stockouts: ${metrics.stockouts.value}`
+      }
+    } catch (error) {
+      console.error('Error fetching database context:', error)
+    }
+
+    return context || 'No specific database context available for this query.'
+  }
+
+  const handleMessageWithDatabaseContext = async (userMessage: string): Promise<string> => {
+    try {
+      const response = await aiAgentApi.chat([
+        ...messages.map(m => ({ role: m.role, content: m.content })),
+        { role: 'user', content: userMessage }
+      ])
+      
+      return response.response
+    } catch (error) {
+      console.error('Error with AI agent API:', error)
+      
+      const context = await fetchDatabaseContext(userMessage)
+      
+      return `I understand you're asking about: "${userMessage}"\n\nHere's what I found in the database:\n${context}\n\nNote: Full AI responses require Azure OpenAI configuration in azure-ai-config.ts`
+    }
   }
 
   const handleSendMessage = async () => {

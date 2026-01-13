@@ -13,7 +13,8 @@ import {
 import { StatusBadge } from '@/components/StatusBadge'
 import { ConfidenceBadge } from '@/components/ConfidenceBadge'
 import { Package, Lightning, CheckCircle, X } from '@phosphor-icons/react'
-import { mockInventory } from '@/lib/mock-data'
+import { inventoryApi } from '@/lib/api-service'
+import { useApiData } from '@/hooks/use-api-data'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 
@@ -21,9 +22,11 @@ export function InventoryView() {
   const [filter, setFilter] = useState<'all' | 'critical' | 'low' | 'optimal' | 'overstock'>('all')
   const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set())
 
+  const { data: inventory, isLoading, error, refetch } = useApiData(inventoryApi.getAll)
+
   const filteredInventory = filter === 'all' 
-    ? mockInventory 
-    : mockInventory.filter(item => item.aiInsights.stockStatus === filter)
+    ? (inventory || [])
+    : (inventory || []).filter(item => item.aiInsights.stockStatus === filter)
 
   const toggleSelection = (productId: string) => {
     const newSelection = new Set(selectedItems)
@@ -48,13 +51,26 @@ export function InventoryView() {
     setSelectedItems(new Set())
   }
 
-  const handleApproveAll = () => {
-    const actionableItems = filteredInventory.filter(
-      item => item.aiInsights.recommendedOrderQuantity > 0
+  if (error) {
+    return (
+      <Card>
+        <CardContent className="py-12 text-center">
+          <p className="text-destructive">Error loading inventory: {error.message}</p>
+          <Button onClick={() => refetch()} className="mt-4">Retry</Button>
+        </CardContent>
+      </Card>
     )
-    toast.success(`Approved ${actionableItems.length} recommendations`, {
-      description: 'Purchase orders have been generated and sent to suppliers.'
-    })
+  }
+
+  if (isLoading) {
+    return (
+      <Card>
+        <CardContent className="py-12 text-center">
+          <Package size={48} className="mx-auto text-muted-foreground mb-3 animate-pulse" weight="light" />
+          <p className="text-muted-foreground">Loading inventory data...</p>
+        </CardContent>
+      </Card>
+    )
   }
 
   return (
@@ -103,35 +119,35 @@ export function InventoryView() {
                 size="sm"
                 onClick={() => setFilter('all')}
               >
-                All ({mockInventory.length})
+                All ({inventory?.length || 0})
               </Button>
               <Button
                 variant={filter === 'critical' ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => setFilter('critical')}
               >
-                Critical ({mockInventory.filter(i => i.aiInsights.stockStatus === 'critical').length})
+                Critical ({inventory?.filter(i => i.aiInsights.stockStatus === 'critical').length || 0})
               </Button>
               <Button
                 variant={filter === 'low' ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => setFilter('low')}
               >
-                Low ({mockInventory.filter(i => i.aiInsights.stockStatus === 'low').length})
+                Low ({inventory?.filter(i => i.aiInsights.stockStatus === 'low').length || 0})
               </Button>
               <Button
                 variant={filter === 'optimal' ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => setFilter('optimal')}
               >
-                Optimal ({mockInventory.filter(i => i.aiInsights.stockStatus === 'optimal').length})
+                Optimal ({inventory?.filter(i => i.aiInsights.stockStatus === 'optimal').length || 0})
               </Button>
               <Button
                 variant={filter === 'overstock' ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => setFilter('overstock')}
               >
-                Overstock ({mockInventory.filter(i => i.aiInsights.stockStatus === 'overstock').length})
+                Overstock ({inventory?.filter(i => i.aiInsights.stockStatus === 'overstock').length || 0})
               </Button>
             </div>
           </div>

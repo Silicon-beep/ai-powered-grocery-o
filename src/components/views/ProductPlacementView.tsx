@@ -11,30 +11,33 @@ import {
 } from '@/components/ui/table'
 import { ConfidenceBadge } from '@/components/ConfidenceBadge'
 import { Layout, TrendUp, CheckCircle, ArrowRight } from '@phosphor-icons/react'
-import { mockPlacementRecommendations } from '@/lib/mock-data'
+import { placementApi } from '@/lib/api-service'
+import { useApiData } from '@/hooks/use-api-data'
 import { toast } from 'sonner'
 
 export function ProductPlacementView() {
+  const { data: placementRecommendations } = useApiData(placementApi.getRecommendations)
+
   const handleApprove = (productName: string) => {
     toast.success('Placement approved', {
       description: `${productName} relocation scheduled for implementation`
     })
   }
 
-  const totalSalesIncrease = mockPlacementRecommendations.reduce(
+  const totalSalesIncrease = placementRecommendations?.reduce(
     (sum, rec) => sum + rec.projectedImpact.salesIncrease,
     0
-  )
+  ) || 0
 
-  const totalBasketIncrease = mockPlacementRecommendations.reduce(
+  const totalBasketIncrease = (placementRecommendations?.reduce(
     (sum, rec) => sum + rec.projectedImpact.basketSizeIncrease,
     0
-  ) / mockPlacementRecommendations.length
+  ) || 0) / (placementRecommendations?.length || 1)
 
-  const totalCLVImpact = mockPlacementRecommendations.reduce(
+  const totalCLVImpact = (placementRecommendations?.reduce(
     (sum, rec) => sum + rec.projectedImpact.clvImpact,
     0
-  ) / mockPlacementRecommendations.length
+  ) || 0) / (placementRecommendations?.length || 1)
 
   return (
     <div className="space-y-6">
@@ -56,7 +59,7 @@ export function ProductPlacementView() {
                 Active Recommendations
               </p>
             </div>
-            <p className="text-3xl font-bold font-mono">{mockPlacementRecommendations.length}</p>
+            <p className="text-3xl font-bold font-mono">{placementRecommendations?.length || 0}</p>
           </CardContent>
         </Card>
 
@@ -115,7 +118,7 @@ export function ProductPlacementView() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {mockPlacementRecommendations.map((rec) => (
+              {placementRecommendations?.map((rec) => (
                 <TableRow key={rec.recommendationId}>
                   <TableCell>
                     <Badge variant="outline">
@@ -181,7 +184,7 @@ export function ProductPlacementView() {
           <CardDescription>Reasoning and analysis for each placement suggestion</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          {mockPlacementRecommendations.map((rec) => (
+          {placementRecommendations?.map((rec) => (
             <div key={rec.recommendationId} className="p-4 rounded-lg bg-muted/50 space-y-3">
               <div className="flex items-start justify-between">
                 <div>
