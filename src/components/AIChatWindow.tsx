@@ -38,13 +38,11 @@ export function AIChatWindow({ isOpen, onClose }: AIChatWindowProps) {
   ])
   const [inputValue, setInputValue] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const scrollRef = useRef<HTMLDivElement>(null)
+  const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight
-    }
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
   useEffect(() => {
@@ -189,7 +187,7 @@ export function AIChatWindow({ isOpen, onClose }: AIChatWindowProps) {
             </div>
 
             <div className="h-[500px] flex flex-col">
-              <ScrollArea className="flex-1 p-4" ref={scrollRef}>
+              <ScrollArea className="flex-1 p-4">
                 <div className="space-y-4">
                   {messages.map((message) => (
                     <div
@@ -241,6 +239,7 @@ export function AIChatWindow({ isOpen, onClose }: AIChatWindowProps) {
                       </div>
                     </div>
                   )}
+                  <div ref={messagesEndRef} />
                 </div>
               </ScrollArea>
 
