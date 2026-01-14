@@ -75,76 +75,39 @@ Typography should project **a
 
 The design should evoke **professional confidence, sophisticated intelligence, and refined precision**. This is a mission-critical enterprise tool for retail operators, so it must feel robust, trustworthy, and purpose-built for fast decision-making under pressure. The aesthetic balances data density with elegant breathing room—displaying complex information without overwhelming. The visual language draws inspiration from modern financial terminals and premium BI platforms: information-rich but never cluttered, with intelligent use of color to highlight what demands attention. Subtle gradients, refined shadows, and polished micro-interactions create a sense of premium quality.
 
-## Color Selection
+- **Primary Color*
 
 The palette combines **sophisticated professional tones with vibrant intelligence accents** to create a system that feels authoritative yet dynamic and modern.
 
 - **Primary Color**: Deep Navy Blue (oklch(0.35 0.12 250)) - Conveys trust, stability, and professional authority; used for primary actions and navigation elements
-- **Secondary Colors**: 
+- **Foreground/Backgroun
   - Slate Gray (oklch(0.50 0.04 250)) for secondary UI elements and sophisticated backgrounds
   - Cool White (oklch(0.98 0.005 250)) for pristine canvas areas with subtle warmth
 - **Accent Color**: Electric Teal (oklch(0.65 0.15 195)) - Intelligent, modern attention-grabber for CTAs, AI recommendations, and interactive elements
-- **Alert Colors**:
-  - Success: Forest Green (oklch(0.55 0.12 150)) for positive metrics and approvals
-  - Warning: Amber (oklch(0.70 0.15 75)) for items requiring attention
-  - Critical: Coral Red (oklch(0.62 0.20 25)) for urgent alerts and stockouts
-- **Data Visualization**: Five-color scale from cool blue through teal to warm orange for heatmaps and performance gradients
-- **Foreground/Background Pairings**:
+Typography should p
+- **Primary Typeface**: Inter - Modern geometric sans-serif with excellent legibili
+- **Typographic Hierarchy**: 
+  - H2 (Section Headers): Inter Semibold/24px/tight letter spacing (-0.01em)
+  - Body (Descriptions): Inter Regular/15px/relaxed line height (1.6)
+  - Metrics/Numbers: JetBrains Mono M
   - Primary Navy (oklch(0.35 0.12 250)): White text (oklch(0.98 0.01 250)) - Ratio 9.2:1 ✓
   - Accent Teal (oklch(0.65 0.15 195)): Navy text (oklch(0.20 0.04 250)) - Ratio 6.8:1 ✓
   - Warning Amber (oklch(0.70 0.15 75)): Navy text (oklch(0.20 0.04 250)) - Ratio 7.1:1 ✓
   - Background (oklch(0.98 0.005 250)): Foreground Charcoal (oklch(0.25 0.02 250)) - Ratio 13.1:1 ✓
 
-## Font Selection
+- Data loading st
 
 Typography should project **analytical precision and refined professionalism**—fonts that are highly legible at small sizes (for dense data tables) while maintaining distinctive character for headers and emphasis.
 
 - **Primary Typeface**: Inter - Modern geometric sans-serif with excellent legibility in data-dense contexts; professional, clean, and highly readable with refined character
-- **Monospace/Data**: JetBrains Mono - For numerical data, timestamps, and metrics where alignment and scanability are critical
-- **Typographic Hierarchy**: 
+  - **Table**: Dense data display for inventory lists, transactions, schedules; sticky headers and virtual scrolling for perfor
+  - **Alert**: Critical notif
   - H1 (App Title): Inter Bold/32px/tight letter spacing (-0.02em)
-  - H2 (Section Headers): Inter Semibold/24px/tight letter spacing (-0.01em)
-  - H3 (Card Titles): Inter Semibold/18px/normal letter spacing
-  - Body (Descriptions): Inter Regular/15px/relaxed line height (1.6)
-  - Data Labels: Inter Medium/13px/normal spacing
-  - Metrics/Numbers: JetBrains Mono Medium/18-24px (size varies by prominence)
-  - Small Meta: Inter Regular/13px/muted color
-
-## Animations
-
-Animations should **reinforce data updates and state transitions** with refined, purposeful motion that feels polished and professional. Use subtle motion to draw attention to changes in real-time metrics, smooth transitions between dashboard views, and provide satisfying feedback on user actions. Keep timing snappy (150-250ms) to match the operational tempo of store management while maintaining an elegant, premium feel. Every animation should feel intentional and sophisticated—micro-interactions that delight without distracting.
-
-Key animation moments:
-- Live metric updates: gentle pulse on change, then smooth number transition with easing
-- AI recommendation appearance: elegant fade and slide-in with confidence indicator animation
-- Dashboard navigation: smooth crossfade between views maintaining spatial orientation
-- Alert notifications: polished slide-in from top-right with subtle bounce
-- Data loading states: sophisticated skeleton screens with shimmer effect
-- Action confirmations: satisfying micro-interactions on approvals with subtle scale feedback
-- Hover states: refined scale transforms (1.02x) and shadow enhancements
-- Tab switching: smooth gradient transitions with subtle lift effect
-
-## Component Selection
-
-- **Components**: 
-  - **Card**: Primary container for all dashboard widgets and metric groups; elevated shadow for depth
-  - **Tabs**: Main navigation between Inventory, Workforce, Pricing, Loss Prevention, and Product Placement views
-  - **Table**: Dense data display for inventory lists, transactions, schedules; sticky headers and virtual scrolling for performance
-  - **Badge**: Status indicators (in-stock/low/out, shift-covered/gap, high-confidence/medium/low)
-  - **Alert**: Critical notifications for stockouts, anomalies, and urgent actions needed
-  - **Button**: Primary (approve actions), Secondary (view details), Destructive (override/reject)
-  - **Dialog**: Confirmation modals for high-impact actions (pricing changes, schedule publishing)
-  - **Tooltip**: Contextual help for AI confidence scores and metric definitions
-  - **Progress**: Visual indicators for stock levels, forecast confidence, task completion
-  - **Skeleton**: Loading states that maintain layout stability during data fetches
-  - **Sheet**: Slide-out panels for detailed drilldowns without losing dashboard context
-  - **Popover**: Quick actions and filters that don't warrant full modal treatment
+  - **Progress**: Visual indicators for stock levels, forecast confidence, t
+  - **Sheet**: Slide-out panels for detailed drilldowns without
   - **Separator**: Visual hierarchy between dashboard sections
-  - **ScrollArea**: Smooth scrolling for tables and lists with custom scrollbar styling
 
-- **Customizations**: 
-  - **Metric Cards**: Custom component combining large numeric display (JetBrains Mono), trend indicator (arrow + percentage), sparkline chart, and comparison context
-  - **AI Recommendation Card**: Custom component with confidence meter, rationale text, impact preview, and approve/reject actions
+  - **Metric Cards**: Custom component combining large numeric display (JetBra
 
 
 
