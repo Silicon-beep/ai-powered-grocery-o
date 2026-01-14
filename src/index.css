@@ -82,17 +82,17 @@
 body {
   font-family: var(--font-sans);
   background: 
-    radial-gradient(ellipse 120% 80% at 30% 10%, oklch(0.75 0.21 330 / 0.15) 0%, transparent 60%),
-    radial-gradient(ellipse 100% 70% at 70% 90%, oklch(0.65 0.24 195 / 0.12) 0%, transparent 55%),
-    radial-gradient(ellipse 90% 60% at 50% 50%, oklch(0.80 0.19 85 / 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 100% 60% at 30% 10%, oklch(0.75 0.21 330 / 0.12) 0%, transparent 55%),
+    radial-gradient(ellipse 90% 55% at 70% 90%, oklch(0.65 0.24 195 / 0.10) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 50% at 50% 50%, oklch(0.80 0.19 85 / 0.06) 0%, transparent 45%),
     repeating-conic-gradient(
       from 45deg at 50% 50%,
       transparent 0deg,
-      oklch(0.75 0.21 330 / 0.02) 90deg,
+      oklch(0.75 0.21 330 / 0.015) 90deg,
       transparent 180deg
     ),
-    radial-gradient(circle at 20% 80%, oklch(0.20 0.08 265) 0%, transparent 25%),
-    radial-gradient(circle at 80% 20%, oklch(0.16 0.06 270) 0%, transparent 25%),
+    radial-gradient(circle at 20% 80%, oklch(0.18 0.06 265) 0%, transparent 22%),
+    radial-gradient(circle at 80% 20%, oklch(0.15 0.05 270) 0%, transparent 22%),
     var(--background);
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;

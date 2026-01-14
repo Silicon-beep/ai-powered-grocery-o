@@ -21,55 +21,55 @@ export function MetricCard({ metric, className }: MetricCardProps) {
                     metric.trend === 'down' ? 'text-destructive' :
                     'text-muted-foreground'
 
-  const statusBorder = metric.status === 'success' ? 'border-success/30 hover:border-success/60' :
-                       metric.status === 'warning' ? 'border-warning/30 hover:border-warning/60' :
-                       metric.status === 'critical' ? 'border-destructive/30 hover:border-destructive/60' :
-                       'border-border/60 hover:border-accent/60'
+  const statusBorder = metric.status === 'success' ? 'border-success/25 hover:border-success/50' :
+                       metric.status === 'warning' ? 'border-warning/25 hover:border-warning/50' :
+                       metric.status === 'critical' ? 'border-destructive/25 hover:border-destructive/50' :
+                       'border-border/50 hover:border-accent/50'
 
-  const statusGradient = metric.status === 'success' ? 'from-success/10 via-transparent to-transparent' :
-                        metric.status === 'warning' ? 'from-warning/10 via-transparent to-transparent' :
-                        metric.status === 'critical' ? 'from-destructive/10 via-transparent to-transparent' :
-                        'from-primary/8 via-transparent to-transparent'
+  const statusGradient = metric.status === 'success' ? 'from-success/8 via-transparent to-transparent' :
+                        metric.status === 'warning' ? 'from-warning/8 via-transparent to-transparent' :
+                        metric.status === 'critical' ? 'from-destructive/8 via-transparent to-transparent' :
+                        'from-primary/6 via-transparent to-transparent'
 
   return (
     <motion.div
-      whileHover={{ scale: 1.05, y: -4 }}
+      whileHover={{ scale: 1.03, y: -2 }}
       transition={{ duration: 0.2, ease: "easeOut" }}
     >
       <Card className={cn(
-        'hover:shadow-2xl transition-all duration-300 border-2 overflow-hidden backdrop-blur-xl',
-        'bg-gradient-to-br from-card/95 to-muted/50',
+        'hover:shadow-xl transition-all duration-300 border overflow-hidden backdrop-blur-xl',
+        'bg-card/80',
         statusBorder,
         className
       )}>
         <div className={cn('absolute inset-0 bg-gradient-to-br opacity-100', statusGradient)} />
-        <CardContent className="p-7 relative">
-          <div className="flex flex-col gap-4">
-            <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">
+        <CardContent className="p-5 relative">
+          <div className="flex flex-col gap-3">
+            <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
               {metric.label}
             </p>
             <div className="flex items-baseline justify-between">
-              <p className="text-5xl font-black font-mono tracking-tight text-foreground">
+              <p className="text-4xl font-black font-mono tracking-tight text-foreground">
                 {metric.value}
               </p>
               {metric.change !== undefined && (
                 <motion.div 
                   className={cn(
-                    'flex items-center gap-2 text-base font-black px-4 py-2 rounded-2xl', 
+                    'flex items-center gap-1.5 text-sm font-black px-3 py-1.5 rounded-xl', 
                     trendColor, 
-                    'bg-background/90 backdrop-blur-sm border-2 border-current/30 shadow-lg'
+                    'bg-background/80 backdrop-blur-sm border border-current/25 shadow-md'
                   )}
                   initial={{ scale: 0, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: 0.15, duration: 0.3, ease: "backOut" }}
+                  transition={{ delay: 0.1, duration: 0.25, ease: "backOut" }}
                 >
-                  <TrendIcon size={18} weight="bold" />
+                  <TrendIcon size={16} weight="bold" />
                   <span>{Math.abs(metric.change)}%</span>
                 </motion.div>
               )}
             </div>
             {metric.changeLabel && (
-              <p className="text-sm text-muted-foreground font-semibold mt-1">
+              <p className="text-xs text-muted-foreground font-medium mt-0.5">
                 {metric.changeLabel}
               </p>
             )}
