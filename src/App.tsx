@@ -34,29 +34,29 @@ function App() {
     <div className="min-h-screen bg-background">
       <Toaster position="top-right" />
       
-      <header className="border-b border-border/60 bg-card/95 backdrop-blur-xl sticky top-0 z-50 shadow-sm">
-        <div className="container mx-auto px-8 py-5">
+      <header className="border-b-2 border-primary/30 bg-card/80 backdrop-blur-2xl sticky top-0 z-50 shadow-2xl shadow-primary/10">
+        <div className="container mx-auto px-8 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-6">
-              <div className="flex items-center gap-4">
-                <div className="relative p-3 rounded-2xl bg-gradient-to-br from-primary via-primary to-accent shadow-lg">
-                  <Cpu size={32} className="text-primary-foreground" weight="duotone" />
-                  <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-success rounded-full border-2 border-card animate-pulse" />
+              <div className="flex items-center gap-5">
+                <div className="relative p-4 rounded-3xl bg-gradient-to-br from-primary via-accent to-secondary shadow-2xl shadow-primary/30">
+                  <Cpu size={40} className="text-background" weight="duotone" />
+                  <div className="absolute -bottom-1.5 -right-1.5 w-4 h-4 bg-success rounded-full border-3 border-card animate-pulse shadow-lg shadow-success/50" />
                 </div>
                 <div>
-                  <h1 className="text-3xl font-bold tracking-tight text-foreground">NeoContoso</h1>
-                  <p className="text-xs text-muted-foreground font-medium tracking-wide">Intelligent Retail Operations</p>
+                  <h1 className="text-4xl font-display font-black tracking-tight text-foreground">NeoContoso</h1>
+                  <p className="text-sm text-muted-foreground font-semibold tracking-wider uppercase">Intelligent Retail Ops</p>
                 </div>
               </div>
-              <div className="h-12 w-px bg-gradient-to-b from-transparent via-border to-transparent ml-2" />
-              <div className="flex items-center gap-3">
+              <div className="h-14 w-0.5 bg-gradient-to-b from-transparent via-primary/40 to-transparent ml-2" />
+              <div className="flex items-center gap-4">
                 <div>
-                  <p className="text-sm font-semibold text-foreground">{store?.name || 'Loading...'}</p>
-                  <p className="text-xs text-muted-foreground font-mono">#{store?.storeNumber || '—'} • {store?.region || '—'}</p>
+                  <p className="text-base font-bold text-foreground">{store?.name || 'Loading...'}</p>
+                  <p className="text-xs text-muted-foreground font-mono font-semibold">#{store?.storeNumber || '—'} • {store?.region || '—'}</p>
                 </div>
-                <Badge variant="outline" className="bg-success/10 text-success border-success/30 font-semibold shadow-sm px-3 py-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-success mr-2 animate-pulse" />
-                  Active
+                <Badge variant="outline" className="bg-success/20 text-success border-2 border-success/50 font-bold shadow-lg shadow-success/20 px-4 py-1.5">
+                  <span className="w-2 h-2 rounded-full bg-success mr-2 animate-pulse" />
+                  ACTIVE
                 </Badge>
               </div>
             </div>
@@ -65,13 +65,13 @@ function App() {
               <Button
                 variant="outline"
                 onClick={() => setIsChatOpen(!isChatOpen)}
-                className="relative bg-gradient-to-r from-accent/15 to-primary/15 text-accent-foreground border border-accent/30 hover:from-accent/25 hover:to-primary/25 font-semibold shadow-md transition-all hover:shadow-lg hover:scale-[1.02] px-5"
+                className="relative bg-gradient-to-r from-accent/25 to-primary/25 text-foreground border-2 border-accent/50 hover:from-accent/35 hover:to-primary/35 font-bold shadow-xl shadow-accent/20 transition-all hover:shadow-2xl hover:shadow-accent/30 hover:scale-105 px-6 py-6"
               >
-                <Lightning size={18} weight="duotone" className="mr-2 text-accent" />
-                AI Agents Active
-                <span className="absolute top-1 right-1 flex h-2 w-2">
+                <Lightning size={22} weight="fill" className="mr-3 text-accent" />
+                AI AGENTS ACTIVE
+                <span className="absolute -top-1 -right-1 flex h-3 w-3">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-accent shadow-lg shadow-accent/50"></span>
                 </span>
               </Button>
             </div>
@@ -79,51 +79,51 @@ function App() {
         </div>
       </header>
 
-      <main className="container mx-auto px-8 py-8">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
-          <Card className="p-2 shadow-xl border border-border/50 bg-gradient-to-br from-card via-card to-muted/20 backdrop-blur">
-            <TabsList className="w-full grid grid-cols-6 h-auto gap-2 bg-transparent p-1.5">
+      <main className="container mx-auto px-8 py-10">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-10">
+          <Card className="p-3 shadow-2xl border-2 border-border/60 bg-gradient-to-br from-card/95 via-card to-muted/30 backdrop-blur-xl">
+            <TabsList className="w-full grid grid-cols-6 h-auto gap-3 bg-transparent p-2">
               <TabsTrigger 
                 value="overview" 
-                className="flex items-center gap-2.5 py-4 px-3 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg font-semibold transition-all hover:scale-[1.02] rounded-lg"
+                className="flex items-center gap-3 py-5 px-4 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-background data-[state=active]:shadow-2xl data-[state=active]:shadow-primary/30 font-bold transition-all hover:scale-105 rounded-2xl"
               >
-                <ChartLine size={22} weight="duotone" />
-                <span className="hidden md:inline">Overview</span>
+                <ChartLine size={24} weight="duotone" />
+                <span className="hidden md:inline text-base">Overview</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="inventory" 
-                className="flex items-center gap-2.5 py-4 px-3 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg font-semibold transition-all hover:scale-[1.02] rounded-lg"
+                className="flex items-center gap-3 py-5 px-4 data-[state=active]:bg-gradient-to-br data-[state=active]:from-secondary data-[state=active]:to-primary data-[state=active]:text-background data-[state=active]:shadow-2xl data-[state=active]:shadow-secondary/30 font-bold transition-all hover:scale-105 rounded-2xl"
               >
-                <Package size={22} weight="duotone" />
-                <span className="hidden md:inline">Inventory</span>
+                <Package size={24} weight="duotone" />
+                <span className="hidden md:inline text-base">Inventory</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="workforce" 
-                className="flex items-center gap-2.5 py-4 px-3 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg font-semibold transition-all hover:scale-[1.02] rounded-lg"
+                className="flex items-center gap-3 py-5 px-4 data-[state=active]:bg-gradient-to-br data-[state=active]:from-accent data-[state=active]:to-secondary data-[state=active]:text-background data-[state=active]:shadow-2xl data-[state=active]:shadow-accent/30 font-bold transition-all hover:scale-105 rounded-2xl"
               >
-                <Users size={22} weight="duotone" />
-                <span className="hidden md:inline">Workforce</span>
+                <Users size={24} weight="duotone" />
+                <span className="hidden md:inline text-base">Workforce</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="pricing" 
-                className="flex items-center gap-2.5 py-4 px-3 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg font-semibold transition-all hover:scale-[1.02] rounded-lg"
+                className="flex items-center gap-3 py-5 px-4 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-background data-[state=active]:shadow-2xl data-[state=active]:shadow-primary/30 font-bold transition-all hover:scale-105 rounded-2xl"
               >
-                <Tag size={22} weight="duotone" />
-                <span className="hidden md:inline">Pricing</span>
+                <Tag size={24} weight="duotone" />
+                <span className="hidden md:inline text-base">Pricing</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="loss" 
-                className="flex items-center gap-2.5 py-4 px-3 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg font-semibold transition-all hover:scale-[1.02] rounded-lg"
+                className="flex items-center gap-3 py-5 px-4 data-[state=active]:bg-gradient-to-br data-[state=active]:from-destructive data-[state=active]:to-warning data-[state=active]:text-background data-[state=active]:shadow-2xl data-[state=active]:shadow-destructive/30 font-bold transition-all hover:scale-105 rounded-2xl"
               >
-                <ShieldWarning size={22} weight="duotone" />
-                <span className="hidden md:inline">Loss Prevention</span>
+                <ShieldWarning size={24} weight="duotone" />
+                <span className="hidden md:inline text-base">Loss Prevention</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="placement" 
-                className="flex items-center gap-2.5 py-4 px-3 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg font-semibold transition-all hover:scale-[1.02] rounded-lg"
+                className="flex items-center gap-3 py-5 px-4 data-[state=active]:bg-gradient-to-br data-[state=active]:from-secondary data-[state=active]:to-accent data-[state=active]:text-background data-[state=active]:shadow-2xl data-[state=active]:shadow-secondary/30 font-bold transition-all hover:scale-105 rounded-2xl"
               >
-                <Layout size={22} weight="duotone" />
-                <span className="hidden md:inline">Placement</span>
+                <Layout size={24} weight="duotone" />
+                <span className="hidden md:inline text-base">Placement</span>
               </TabsTrigger>
             </TabsList>
           </Card>
@@ -154,11 +154,11 @@ function App() {
         </Tabs>
       </main>
 
-      <footer className="border-t border-border/60 mt-16 bg-gradient-to-r from-card/50 via-muted/30 to-card/50 backdrop-blur-sm">
-        <div className="container mx-auto px-8 py-8">
+      <footer className="border-t-2 border-primary/30 mt-20 bg-gradient-to-r from-card/60 via-muted/40 to-card/60 backdrop-blur-xl">
+        <div className="container mx-auto px-8 py-10">
           <div className="flex items-center justify-between text-sm text-muted-foreground">
-            <p className="font-medium">© 2024 NeoContoso. Intelligent Retail Operations Platform.</p>
-            <p className="font-mono text-xs">Optimizing Customer Lifetime Value through AI-Driven Excellence</p>
+            <p className="font-bold text-base">© 2024 NeoContoso. Intelligent Retail Operations Platform.</p>
+            <p className="font-mono text-xs font-semibold tracking-wide">Optimizing CLV through AI-Driven Excellence</p>
           </div>
         </div>
       </footer>
