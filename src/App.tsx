@@ -11,7 +11,8 @@ import {
   Tag, 
   ShieldWarning,
   Layout,
-  Lightning
+  Lightning,
+  Cpu
 } from '@phosphor-icons/react'
 import { OperationsOverview } from '@/components/views/OperationsOverview'
 import { InventoryView } from '@/components/views/InventoryView'
@@ -33,26 +34,28 @@ function App() {
     <div className="min-h-screen bg-background">
       <Toaster position="top-right" />
       
-      <header className="border-b-2 border-primary/20 bg-card/80 backdrop-blur-xl sticky top-0 z-50 shadow-lg">
+      <header className="border-b border-border/60 bg-card/95 backdrop-blur-xl sticky top-0 z-50 shadow-sm">
         <div className="container mx-auto px-8 py-5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-6">
-              <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-xl bg-gradient-to-br from-primary to-accent shadow-lg">
-                  <Lightning size={28} className="text-primary-foreground" weight="fill" />
+              <div className="flex items-center gap-4">
+                <div className="relative p-3 rounded-2xl bg-gradient-to-br from-primary via-primary to-accent shadow-lg">
+                  <Cpu size={32} className="text-primary-foreground" weight="duotone" />
+                  <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-success rounded-full border-2 border-card animate-pulse" />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold tracking-tight font-heading">StoreAI</h1>
-                  <p className="text-xs text-muted-foreground font-medium">Grocery Management Platform</p>
+                  <h1 className="text-3xl font-bold tracking-tight text-foreground">NeoContoso</h1>
+                  <p className="text-xs text-muted-foreground font-medium tracking-wide">Intelligent Retail Operations</p>
                 </div>
               </div>
-              <div className="h-10 w-px bg-gradient-to-b from-transparent via-border to-transparent ml-2" />
+              <div className="h-12 w-px bg-gradient-to-b from-transparent via-border to-transparent ml-2" />
               <div className="flex items-center gap-3">
                 <div>
-                  <p className="text-sm font-bold font-heading">{store?.name || 'Loading...'}</p>
-                  <p className="text-xs text-muted-foreground font-mono">Store #{store?.storeNumber || '—'} • {store?.region || '—'}</p>
+                  <p className="text-sm font-semibold text-foreground">{store?.name || 'Loading...'}</p>
+                  <p className="text-xs text-muted-foreground font-mono">#{store?.storeNumber || '—'} • {store?.region || '—'}</p>
                 </div>
-                <Badge variant="outline" className="bg-success/15 text-success border-success font-bold shadow-sm">
+                <Badge variant="outline" className="bg-success/10 text-success border-success/30 font-semibold shadow-sm px-3 py-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-success mr-2 animate-pulse" />
                   Active
                 </Badge>
               </div>
@@ -62,10 +65,14 @@ function App() {
               <Button
                 variant="outline"
                 onClick={() => setIsChatOpen(!isChatOpen)}
-                className="bg-gradient-to-r from-accent/20 to-primary/20 text-accent-foreground border-2 border-accent hover:from-accent/30 hover:to-primary/30 font-bold shadow-md transition-all hover:shadow-lg hover:scale-105"
+                className="relative bg-gradient-to-r from-accent/15 to-primary/15 text-accent-foreground border border-accent/30 hover:from-accent/25 hover:to-primary/25 font-semibold shadow-md transition-all hover:shadow-lg hover:scale-[1.02] px-5"
               >
-                <Lightning size={16} weight="fill" className="mr-2" />
+                <Lightning size={18} weight="duotone" className="mr-2 text-accent" />
                 AI Agents Active
+                <span className="absolute top-1 right-1 flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
+                </span>
               </Button>
             </div>
           </div>
@@ -74,48 +81,48 @@ function App() {
 
       <main className="container mx-auto px-8 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
-          <Card className="p-2 shadow-lg border-2 border-primary/10 bg-gradient-to-r from-card via-primary/5 to-card">
-            <TabsList className="w-full grid grid-cols-6 h-auto gap-2 bg-transparent p-1">
+          <Card className="p-2 shadow-xl border border-border/50 bg-gradient-to-br from-card via-card to-muted/20 backdrop-blur">
+            <TabsList className="w-full grid grid-cols-6 h-auto gap-2 bg-transparent p-1.5">
               <TabsTrigger 
                 value="overview" 
-                className="flex items-center gap-2 py-4 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-primary-foreground data-[state=active]:shadow-md font-bold transition-all hover:scale-105"
+                className="flex items-center gap-2.5 py-4 px-3 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg font-semibold transition-all hover:scale-[1.02] rounded-lg"
               >
-                <ChartLine size={20} weight="bold" />
+                <ChartLine size={22} weight="duotone" />
                 <span className="hidden md:inline">Overview</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="inventory" 
-                className="flex items-center gap-2 py-4 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-primary-foreground data-[state=active]:shadow-md font-bold transition-all hover:scale-105"
+                className="flex items-center gap-2.5 py-4 px-3 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg font-semibold transition-all hover:scale-[1.02] rounded-lg"
               >
-                <Package size={20} weight="bold" />
+                <Package size={22} weight="duotone" />
                 <span className="hidden md:inline">Inventory</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="workforce" 
-                className="flex items-center gap-2 py-4 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-primary-foreground data-[state=active]:shadow-md font-bold transition-all hover:scale-105"
+                className="flex items-center gap-2.5 py-4 px-3 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg font-semibold transition-all hover:scale-[1.02] rounded-lg"
               >
-                <Users size={20} weight="bold" />
+                <Users size={22} weight="duotone" />
                 <span className="hidden md:inline">Workforce</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="pricing" 
-                className="flex items-center gap-2 py-4 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-primary-foreground data-[state=active]:shadow-md font-bold transition-all hover:scale-105"
+                className="flex items-center gap-2.5 py-4 px-3 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg font-semibold transition-all hover:scale-[1.02] rounded-lg"
               >
-                <Tag size={20} weight="bold" />
+                <Tag size={22} weight="duotone" />
                 <span className="hidden md:inline">Pricing</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="loss" 
-                className="flex items-center gap-2 py-4 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-primary-foreground data-[state=active]:shadow-md font-bold transition-all hover:scale-105"
+                className="flex items-center gap-2.5 py-4 px-3 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg font-semibold transition-all hover:scale-[1.02] rounded-lg"
               >
-                <ShieldWarning size={20} weight="bold" />
+                <ShieldWarning size={22} weight="duotone" />
                 <span className="hidden md:inline">Loss Prevention</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="placement" 
-                className="flex items-center gap-2 py-4 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-primary-foreground data-[state=active]:shadow-md font-bold transition-all hover:scale-105"
+                className="flex items-center gap-2.5 py-4 px-3 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg font-semibold transition-all hover:scale-[1.02] rounded-lg"
               >
-                <Layout size={20} weight="bold" />
+                <Layout size={22} weight="duotone" />
                 <span className="hidden md:inline">Placement</span>
               </TabsTrigger>
             </TabsList>
@@ -147,11 +154,11 @@ function App() {
         </Tabs>
       </main>
 
-      <footer className="border-t-2 border-primary/20 mt-16 bg-gradient-to-r from-card via-primary/5 to-card backdrop-blur-sm">
+      <footer className="border-t border-border/60 mt-16 bg-gradient-to-r from-card/50 via-muted/30 to-card/50 backdrop-blur-sm">
         <div className="container mx-auto px-8 py-8">
           <div className="flex items-center justify-between text-sm text-muted-foreground">
-            <p className="font-medium">© 2024 StoreAI. AI-Powered Grocery Management Platform.</p>
-            <p className="font-mono text-xs">Optimizing Customer Lifetime Value through Operational Excellence</p>
+            <p className="font-medium">© 2024 NeoContoso. Intelligent Retail Operations Platform.</p>
+            <p className="font-mono text-xs">Optimizing Customer Lifetime Value through AI-Driven Excellence</p>
           </div>
         </div>
       </footer>

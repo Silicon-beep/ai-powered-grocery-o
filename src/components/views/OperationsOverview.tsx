@@ -26,10 +26,10 @@ export function OperationsOverview() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-4xl font-black tracking-tight font-heading bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+        <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
           Operations Overview
         </h1>
-        <p className="text-muted-foreground mt-2 text-base font-medium">
+        <p className="text-muted-foreground mt-2 text-base">
           Real-time insights across inventory, workforce, pricing, and customer lifetime value
         </p>
       </div>
@@ -37,20 +37,20 @@ export function OperationsOverview() {
       {(criticalItems.length > 0 || activeShrinkage.length > 0) && (
         <div className="space-y-4">
           {criticalItems.length > 0 && (
-            <Alert className="border-2 border-destructive/50 bg-gradient-to-r from-destructive/10 via-destructive/5 to-destructive/10 shadow-lg">
+            <Alert className="border border-destructive/30 bg-gradient-to-r from-destructive/10 via-destructive/5 to-transparent shadow-md backdrop-blur-sm">
               <WarningCircle className="h-5 w-5 text-destructive" weight="fill" />
               <AlertDescription className="text-sm font-medium">
-                <span className="font-black">{criticalItems.length} critical stockout{criticalItems.length !== 1 ? 's' : ''}</span>
+                <span className="font-bold">{criticalItems.length} critical stockout{criticalItems.length !== 1 ? 's' : ''}</span>
                 {' '}detected. Immediate action required to prevent lost sales.
               </AlertDescription>
             </Alert>
           )}
           
           {activeShrinkage.length > 0 && (
-            <Alert className="border-2 border-warning/50 bg-gradient-to-r from-warning/10 via-warning/5 to-warning/10 shadow-lg">
+            <Alert className="border border-warning/30 bg-gradient-to-r from-warning/10 via-warning/5 to-transparent shadow-md backdrop-blur-sm">
               <ShieldWarning className="h-5 w-5 text-warning-foreground" weight="fill" />
               <AlertDescription className="text-sm font-medium">
-                <span className="font-black">{activeShrinkage.length} shrinkage event{activeShrinkage.length !== 1 ? 's' : ''}</span>
+                <span className="font-bold">{activeShrinkage.length} shrinkage event{activeShrinkage.length !== 1 ? 's' : ''}</span>
                 {' '}under investigation. Total estimated loss: ${activeShrinkage.reduce((sum, e) => sum + e.estimatedLoss, 0).toFixed(2)}
               </AlertDescription>
             </Alert>
@@ -73,37 +73,37 @@ export function OperationsOverview() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <Card className="hover:shadow-xl transition-all duration-300 border-2 hover:border-accent/50 group">
+        <Card className="hover:shadow-xl transition-all duration-300 border border-border/50 hover:border-accent/40 group backdrop-blur-sm">
           <CardHeader className="pb-4">
             <div className="flex items-center gap-3">
-              <div className="p-3 rounded-xl bg-gradient-to-br from-accent/20 to-accent/10 group-hover:from-accent/30 group-hover:to-accent/20 transition-all shadow-sm">
-                <Package className="h-6 w-6 text-accent" weight="bold" />
+              <div className="p-3 rounded-xl bg-gradient-to-br from-accent/15 to-accent/5 group-hover:from-accent/25 group-hover:to-accent/10 transition-all shadow-sm">
+                <Package className="h-6 w-6 text-accent" weight="duotone" />
               </div>
               <div>
-                <CardTitle className="text-lg font-bold font-heading">Inventory Status</CardTitle>
-                <CardDescription className="text-xs font-medium">AI-powered stock management</CardDescription>
+                <CardTitle className="text-lg font-semibold">Inventory Status</CardTitle>
+                <CardDescription className="text-xs">AI-powered stock management</CardDescription>
               </div>
             </div>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center justify-between p-3 rounded-lg bg-destructive/5 border border-destructive/20">
-              <span className="text-sm font-bold text-muted-foreground">Critical</span>
+          <CardContent className="space-y-3">
+            <div className="flex items-center justify-between p-3 rounded-lg bg-destructive/5 border border-destructive/20 backdrop-blur-sm">
+              <span className="text-sm font-semibold text-muted-foreground">Critical</span>
               <div className="flex items-center gap-3">
-                <span className="text-2xl font-black font-mono text-destructive">{criticalItems.length}</span>
+                <span className="text-2xl font-bold font-mono text-destructive">{criticalItems.length}</span>
                 <StatusBadge status="critical" />
               </div>
             </div>
-            <div className="flex items-center justify-between p-3 rounded-lg bg-warning/5 border border-warning/20">
-              <span className="text-sm font-bold text-muted-foreground">Low Stock</span>
+            <div className="flex items-center justify-between p-3 rounded-lg bg-warning/5 border border-warning/20 backdrop-blur-sm">
+              <span className="text-sm font-semibold text-muted-foreground">Low Stock</span>
               <div className="flex items-center gap-3">
-                <span className="text-2xl font-black font-mono text-warning-foreground">{lowItems.length}</span>
+                <span className="text-2xl font-bold font-mono text-warning-foreground">{lowItems.length}</span>
                 <StatusBadge status="low" />
               </div>
             </div>
-            <div className="flex items-center justify-between p-3 rounded-lg bg-success/5 border border-success/20">
-              <span className="text-sm font-bold text-muted-foreground">Optimal</span>
+            <div className="flex items-center justify-between p-3 rounded-lg bg-success/5 border border-success/20 backdrop-blur-sm">
+              <span className="text-sm font-semibold text-muted-foreground">Optimal</span>
               <div className="flex items-center gap-3">
-                <span className="text-2xl font-black font-mono text-success">
+                <span className="text-2xl font-bold font-mono text-success">
                   {inventory?.filter(i => i.aiInsights.stockStatus === 'optimal').length || 0}
                 </span>
                 <StatusBadge status="optimal" />
@@ -112,42 +112,42 @@ export function OperationsOverview() {
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-xl transition-all duration-300 border-2 hover:border-accent/50 group">
+        <Card className="hover:shadow-xl transition-all duration-300 border border-border/50 hover:border-accent/40 group backdrop-blur-sm">
           <CardHeader className="pb-4">
             <div className="flex items-center gap-3">
-              <div className="p-3 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 group-hover:from-primary/30 group-hover:to-primary/20 transition-all shadow-sm">
-                <Users className="h-6 w-6 text-primary" weight="bold" />
+              <div className="p-3 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 group-hover:from-primary/25 group-hover:to-primary/10 transition-all shadow-sm">
+                <Users className="h-6 w-6 text-primary" weight="duotone" />
               </div>
               <div>
-                <CardTitle className="text-lg font-bold font-heading">Workforce</CardTitle>
-                <CardDescription className="text-xs font-medium">Scheduling & optimization</CardDescription>
+                <CardTitle className="text-lg font-semibold">Workforce</CardTitle>
+                <CardDescription className="text-xs">Scheduling & optimization</CardDescription>
               </div>
             </div>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50 border border-border">
-              <span className="text-sm font-bold text-muted-foreground">Today's Shifts</span>
-              <span className="text-2xl font-black font-mono">24</span>
+          <CardContent className="space-y-3">
+            <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50 border border-border backdrop-blur-sm">
+              <span className="text-sm font-semibold text-muted-foreground">Today's Shifts</span>
+              <span className="text-2xl font-bold font-mono">24</span>
             </div>
-            <div className="flex items-center justify-between p-3 rounded-lg bg-warning/5 border border-warning/20">
-              <span className="text-sm font-bold text-muted-foreground">Coverage Gaps</span>
-              <span className="text-2xl font-black font-mono text-warning-foreground">3</span>
+            <div className="flex items-center justify-between p-3 rounded-lg bg-warning/5 border border-warning/20 backdrop-blur-sm">
+              <span className="text-sm font-semibold text-muted-foreground">Coverage Gaps</span>
+              <span className="text-2xl font-bold font-mono text-warning-foreground">3</span>
             </div>
-            <div className="flex items-center justify-between p-3 rounded-lg bg-success/5 border border-success/20">
-              <span className="text-sm font-bold text-muted-foreground">Optimal Hours</span>
-              <span className="text-2xl font-black font-mono text-success">18</span>
+            <div className="flex items-center justify-between p-3 rounded-lg bg-success/5 border border-success/20 backdrop-blur-sm">
+              <span className="text-sm font-semibold text-muted-foreground">Optimal Hours</span>
+              <span className="text-2xl font-bold font-mono text-success">18</span>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-xl transition-all duration-300 border-2 hover:border-accent/50 group">
+        <Card className="hover:shadow-xl transition-all duration-300 border border-border/50 hover:border-accent/40 group backdrop-blur-sm">
           <CardHeader className="pb-4">
             <div className="flex items-center gap-3">
-              <div className="p-3 rounded-xl bg-gradient-to-br from-secondary/20 to-secondary/10 group-hover:from-secondary/30 group-hover:to-secondary/20 transition-all shadow-sm">
-                <Tag className="h-6 w-6 text-secondary" weight="bold" />
+              <div className="p-3 rounded-xl bg-gradient-to-br from-secondary/15 to-secondary/5 group-hover:from-secondary/25 group-hover:to-secondary/10 transition-all shadow-sm">
+                <Tag className="h-6 w-6 text-secondary" weight="duotone" />
               </div>
               <div>
-                <CardTitle className="text-lg font-bold font-heading">Pricing</CardTitle>
+                <CardTitle className="text-lg font-semibold">Pricing</CardTitle>
                 <CardDescription className="text-xs font-medium">Dynamic recommendations</CardDescription>
               </div>
             </div>
